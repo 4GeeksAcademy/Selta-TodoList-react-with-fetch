@@ -1,20 +1,44 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+
+const url = "https://playground.4geeks.com/apis/fake/todos/user/Selta"
+
+
 
 
 
 const TodoList = () => {
     const [todos, setTodos] = useState ([]);
     const [inputValue, setInputValue] = useState ('');
+    
+    const handleJson = async () => {
+
+        const response = await fetch (url);
+        const jsonResponse= await response.json ();
+        setTodos(jsonResponse)
+    };
+
+
 
     function handleChange(e){
         setInputValue(e.target.value)
       }
+      
       
       function handleSubmit(e){
         e.preventDefault()
         setTodos([...todos, inputValue])
         setInputValue('')
     }
+        funtion handleSubmit (e) {
+            fetch (url,{
+                method: 'POST',
+                body: JSON.stringify (setTodos)
+            })
+        }
+
+
+
+
     function handleDelete(index){
         const newTodos = todos.filter ((e, filterIndex)=> {
         return filterIndex !== index 
@@ -22,6 +46,10 @@ const TodoList = () => {
         
         setTodos(newTodos)
       }
+      
+    useEffect (() => {
+        handleJson ();
+    }, []);
 
 
     return (
@@ -31,7 +59,7 @@ const TodoList = () => {
                     <input className="todoList" type="text" value={inputValue} onChange={handleChange} />
                     <button type="button" className="btn btn-dark mx-1" onClick={handleSubmit}>Add Todo </button>
                     <ul> {todos.map((todo, index) => (
-                     <li key={todo}>{todo}
+                     <li key={todo.label}>{todo.label}
                                 <button type="button" className="btn btn-dark" onClick={() =>handleDelete(index)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace" viewBox="0 0 16 16">
                                         <path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"/>
