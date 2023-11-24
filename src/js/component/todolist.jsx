@@ -19,7 +19,17 @@ const TodoList = () => {
     };
 
     useEffect (() => { //do an async await "post" and after an await fetchtodos
-        fetchTodos ();
+       const postProfileAndFetchTodos = async () => {
+            await fetch (url, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify([])
+            });
+         fetchTodos ();
+       };
+       postProfileAndFetchTodos();
     }, []);
 
     
@@ -59,7 +69,18 @@ const TodoList = () => {
 
     function handleClear () {
         //async "delete"
-        setTodos ([]);
+        const clearProfileAndSetTodos = async () => {
+            await fetch (url, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+               
+    });
+            setTodos ([]);
+    };
+                 
+            clearProfileAndSetTodos ();
     }
 
     return (
